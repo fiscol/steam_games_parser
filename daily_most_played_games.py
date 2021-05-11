@@ -14,7 +14,7 @@ gss_scopes = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path,gss_scopes)
 gss_client = gspread.authorize(credentials)
 #開啟 Google Sheet 資料表
-spreadsheet_key = '1aec5_e-T3bjMCDCiFCnzeDeToh2Dv0SKZXhWU9ACvZY'
+spreadsheet_key = '1JFygVQKsXuk6hmIlWR2100toY_TyCABE2Wvzweh7058'
 #取得目前工作分頁的長度
 new_sheet_id = str(len(gss_client.open_by_key(spreadsheet_key).worksheets()) + 1)
 #建立新工作分頁
@@ -38,7 +38,7 @@ if r.status_code == requests.codes.ok:
   players_tag = rank_div.find_all("span", class_="players")
   main_array = [[0 for x in range(3)] for x in range(250)]
 
-  print(len(title_tag))
+  print(len(img_tag))
   
   i = 0
   while(i < len(title_tag)):
@@ -46,7 +46,8 @@ if r.status_code == requests.codes.ok:
     i += 1
   k = 0
   while(k < len(img_tag)):
-    main_array[k][1] = "https:" + img_tag[k]['src']
+    # print(img_tag[k])
+    main_array[k][1] = "https:" + img_tag[k]['data-src']
     k += 1
   r = 0
   while(r < len(players_tag)):
@@ -86,7 +87,19 @@ if r.status_code == requests.codes.ok:
         new_data=[second[i][0],second[i][1]]
         main_sheet.append_row(new_data)
         main_sheet.update_cell(total_saved_rows, today_column, second[i][2])
+        for m in range(3, today_column):
+          main_sheet.update_cell(total_saved_rows, m, 0)
       except gspread.exceptions.APIError:
         print("#" + str(i + 1) + " Sleep until sheet quota is being reset.")
+        continue
+      break
+  for n in range(2, total_saved_rows):
+    while True:
+      try:
+        if (main_sheet.cell(n, today_column).value == ""):
+          print('#' + str(n - 1) + " -> out of rankings")
+          main_sheet.update_cell(n, today_column, 0)
+      except gspread.exceptions.APIError:
+        print("#" + str(n - 1) + " Sleep until sheet quota is being reset.")
         continue
       break

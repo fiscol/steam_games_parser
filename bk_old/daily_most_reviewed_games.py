@@ -14,7 +14,7 @@ gss_scopes = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path,gss_scopes)
 gss_client = gspread.authorize(credentials)
 #開啟 Google Sheet 資料表
-spreadsheet_key = '1dxFPHR7FGus9w_vtlMcEaFzYKhCdyx4vBsnJXKFqNME'
+spreadsheet_key = '11spF7BN23kOXyEmQcRizXpUoLJzRF-sH8I5nPpDQ24M'
 #取得目前工作分頁的長度
 new_sheet_id = str(len(gss_client.open_by_key(spreadsheet_key).worksheets()) + 1)
 #建立新工作分頁
@@ -46,7 +46,7 @@ if r.status_code == requests.codes.ok:
     i += 1
   k = 0
   while(k < len(img_tag)):
-    main_array[k][1] = "https:" + img_tag[k]['src']
+    main_array[k][1] = "https:" + img_tag[k]['data-src']
     k += 1
   r = 0
   while(r < len(owners_tag)):
