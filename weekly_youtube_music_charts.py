@@ -9,6 +9,7 @@ import os
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+import json
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
@@ -34,7 +35,8 @@ def main():
     )
     response = request.execute()
 
-    print(response)
+    with open('youtube_music_data.json', 'w', encoding='utf-8') as f:
+        json.dump(response, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     main()
