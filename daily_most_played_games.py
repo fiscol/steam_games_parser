@@ -8,13 +8,13 @@ import gspread
 import time
 from oauth2client.service_account import ServiceAccountCredentials
 
-auth_json_path = 'auth_token.json'
+auth_json_path = 'datakid_auth_token.json'
 gss_scopes = ['https://spreadsheets.google.com/feeds']
 #連線
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path,gss_scopes)
 gss_client = gspread.authorize(credentials)
 #開啟 Google Sheet 資料表
-spreadsheet_key = '1JFygVQKsXuk6hmIlWR2100toY_TyCABE2Wvzweh7058'
+spreadsheet_key = '1JaDidRTxi0s6UHWNSLiPL4QaCmYn-_ysMdlhU85YrFs'
 #取得目前工作分頁的長度
 new_sheet_id = str(len(gss_client.open_by_key(spreadsheet_key).worksheets()) + 1)
 #建立新工作分頁
@@ -59,7 +59,7 @@ if r.status_code == requests.codes.ok:
   ##寫入總表
 
   #主工作表名稱
-  main_sheet = gss_client.open_by_key(spreadsheet_key).worksheet('工作表1')
+  main_sheet = gss_client.open_by_key(spreadsheet_key).worksheet('STEAM Most Played Games 2021 May')
   #取得目前工作分頁的長度
   new_sheet_id = "工作表" + str(len(gss_client.open_by_key(spreadsheet_key).worksheets()))
   #讀取當日最新工作表資料
@@ -72,6 +72,8 @@ if r.status_code == requests.codes.ok:
   total_saved_rows = len(main_sheet.col_values(1))
   #讀取整個表
   second = latest_sheet.get_all_values()
+  #移除新工作表
+  gss_client.open_by_key(spreadsheet_key).del_worksheet(latest_sheet)
 
   for i in range(0, 250):
     while True:
