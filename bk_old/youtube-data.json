@@ -1,0 +1,16 @@
+{
+    "web": {
+        "client_id": "1093048110419-k0qm5opbav1pu5v9rsafq0e5dtmlf4m8.apps.googleusercontent.com",
+        "project_id": "youtubeproject-1602988005212",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "oyc6vrLxSin9jdV1RBP_9WIH",
+        "redirect_uris": [
+            "http://localhost:8080/callback"
+        ],
+        "javascript_origins": [
+            "http://localhost:8080"
+        ]
+    }
+}
