@@ -83,13 +83,19 @@ if r.status_code == requests.codes.ok:
           main_sheet.update_cell(cell.row, 2, second[i][1])
         main_sheet.update_cell(cell.row, today_column, second[i][2])
       except gspread.exceptions.CellNotFound:
-        print("New Data")
-        total_saved_rows+=1
-        new_data=[second[i][0],second[i][1]]
-        main_sheet.append_row(new_data)
-        main_sheet.update_cell(total_saved_rows, today_column, second[i][2])
-        for m in range(3, today_column):
-          main_sheet.update_cell(total_saved_rows, m, 0)
+          print("New Data")
+          total_saved_rows+=1
+          new_data=[second[i][0],second[i][1]]
+          main_sheet.append_row(new_data)
+          main_sheet.update_cell(total_saved_rows, today_column, second[i][2])
+          for m in range(3, today_column):
+            while True:
+              try:
+                main_sheet.update_cell(total_saved_rows, m, 0)
+              except gspread.exceptions.APIError:
+                print("#" + str(i + 1) + " Sleep until sheet quota is being reset.")
+                continue
+              break
       except gspread.exceptions.APIError:
         print("#" + str(i + 1) + " Sleep until sheet quota is being reset.")
         continue
