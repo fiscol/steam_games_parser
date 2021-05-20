@@ -114,7 +114,13 @@ def lambda_handler(event, context):
                     main_sheet.update_cell(
                         total_saved_rows, today_column, second[i][2])
                     for m in range(3, today_column):
-                        main_sheet.update_cell(total_saved_rows, m, 0)
+                        while True:
+                            try:
+                                main_sheet.update_cell(total_saved_rows, m, 0)
+                            except gspread.exceptions.APIError:
+                                logger.info("#" + str(i + 1) + " Sleep until sheet quota is being reset.")
+                                continue
+                            break
                 except gspread.exceptions.APIError:
                     logger.info("#" + str(i + 1) +
                                 " Sleep until sheet quota is being reset.")
